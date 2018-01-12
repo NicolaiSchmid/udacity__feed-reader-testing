@@ -26,83 +26,59 @@ $(function () {
             expect(allFeeds.length).not.toBe(0);
         });
 
+        // Checks if the provided feedarray, provides a URL for each entry
         it('have defined and non empty URLs', function () {
             allFeeds.forEach((feed) => {
                 expect(feed.url).toBeDefined();
-                expect(feed.url).not.toBe(0);
+                expect(feed.url.length).not.toBe(0);
             });
         });
         
-        /* TODO: Write a test that loops through each feed
-         * in the allFeeds object and ensures it has a name defined
-         * and that the name is not empty.
-         */
+        // Checks if the provided feedarray, provides a name for each entry
         it('have defined and now empty names', () => {
             allFeeds.forEach((feed) => {
                 expect(feed.name).toBeDefined();
-                expect(feed.name).not.toBe(0);
+                expect(feed.name.length).not.toBe(0);
             });
         });
     });
 
 
-    /* TODO: Write a new test suite named "The menu" */
     describe('The menu', () => {
-        /* TODO: Write a test that ensures the menu element is
-         * hidden by default. You'll have to analyze the HTML and
-         * the CSS to determine how we're performing the
-         * hiding/showing of the menu element.
-         */
+
+        // Check if the menu is hidden by default
         it('is hidden by default', () => {
             expect(document.querySelector('body').classList.contains('menu-hidden')).toBe(true);
         });
-        /* TODO: Write a test that ensures the menu changes
-         * visibility when the menu icon is clicked. This test
-         * should have two expectations: does the menu display when
-         * clicked and does it hide when clicked again.
-         */
+
+        // Checks if the menu is displayed (not hidden) after the menu button was pressed
         it('changes visibility if the icon is clicked', () => {
             // Click the menu button to show menu
-            document.querySelector('.menu-icon-link').dispatchEvent((new CustomEvent('click', {
-                composed: true,
-                bubbles: true,
-            })));
+            document.querySelector('.menu-icon-link').click();
             expect(document.querySelector('body').classList.contains('menu-hidden')).toBe(false);
 
             // Click the menu button to hide menu again
-            document.querySelector('.menu-icon-link').dispatchEvent((new CustomEvent('click', {
-                composed: true,
-                bubbles: true,
-            })));
+            document.querySelector('.menu-icon-link').click();
             expect(document.querySelector('body').classList.contains('menu-hidden')).toBe(true);
         });
     });
 
 
-    /* TODO: Write a new test suite named "Initial Entries" */
     describe('Initial Entries', () => {
-        /* TODO: Write a test that ensures when the loadFeed
-         * function is called and completes its work, there is at least
-         * a single .entry element within the .feed container.
-         * Remember, loadFeed() is asynchronous so this test will require
-         * the use of Jasmine's beforeEach and asynchronous done() function.
-         */
+        // Checks if the loadFeed function creates at least one entry of content inside the feed element
         beforeEach((done) => {
             loadFeed(0, () => {
                 done();
             });
         });
         it('should be present when the loadFeed function is executed', () => {
-            expect(document.querySelector('.feed').querySelector('.entry')).toBeDefined();
+            const entryList = [].slice.call(document.querySelector('.feed').querySelectorAll('.entry'));
+            expect(entryList.length).not.toEqual(0);
         });
     });
 
-    /* TODO: Write a new test suite named "New Feed Selection" */
     describe('New Feed Selection', () => {
-        /* TODO: Write a test that ensures when a new feed is loaded
-         * by the loadFeed function that the content actually changes.
-         * Remember, loadFeed() is asynchronous.
-         */
+        // Checks if the loadFeed function replaces the content on the page, if a new topic was loaded
         let firstEntry = '';
         beforeEach((done) => {
             loadFeed(0, () => {
